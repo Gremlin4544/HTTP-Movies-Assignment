@@ -17,23 +17,26 @@ export default (props) => {
 
     const fetchMovie = id => {
         axios
-        .get(`https://localhost:7000/api/movies/${id}`)
-        .then(res => console.log(res.data);
-                    setMovie(res.data):
-        })
-        .catch(error => console.log(error.response));
-    };
+            .get(`http://localhost:5000/api/movies/${id}`)
+            .then(res => {
+                console.log(res.data);
+                setMovie(res.data );
+            })
+            .catch(error => console.log(error.response));
+        };
     
-    const onSubmit = (event) => {
-        event.preventDefault();
-        axios
-        .get(`https://localhost:7000/api/movies/${movie.id}`, movie)
-        .then(res => console.log(res.data);
-                    setMovie(res.data);
-                    props.history.push(`/`);
-        })
-        .catch(error => console.log(error.response));
-    }
+        const onSubmit = (event) => {
+            event.preventDefault();
+            axios
+            .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
+            .then(res => {
+                // console.log(res.data);
+                setMovie(res.data );
+                props.history.push(`/`);
+            })
+            .catch(error => console.log(error.response));
+        }
+    
     
     const onChange = event => {
         setMovie({
@@ -46,34 +49,25 @@ export default (props) => {
         <div className="movie-list">
             <h2>Update Movie</h2>
             <div>
-                <form onSubmit={onSubmit}>
-                    <div className="movie-card">
-                        <h3><input 
-                            value={movie.title}
-                            name='title'
-                            onChange={onChange} />
-                        </h3>
-                        <h3><input 
-                            value={movie.director}
-                            name='director'
-                            onChange={onChange} />
-                        </h3>
-                        <h3><input 
-                            value={movie.metascore}
-                            name='metascore'
-                            onChange={onChange} />
-                        </h3>
-                        <h4>Movie Stars: </h4>
-                        {movie.stars.map(star => (
-                            <div key={star} className='movie-star'>
-                            {star}
-                            </div>
-                        ))}
-                        <button className="edit-btn">
-                            Save changes
-                        </button>
-                    </div>
-                </form>
+            <form onSubmit={onSubmit}>
+            <div className="movie-card">
+            <h2><input value={movie.title} style={{fontSize:'1.6rem', width:'70%'}} name='title' onChange={onChange}/></h2>
+            <div className="movie-director">
+                Director: <em><input value={movie.director} onChange={onChange} name='director'/></em>
+            </div>
+            <div className="movie-metascore">
+                Metascore: <strong><input value={movie.metascore} onChange={onChange} name='metascore'/></strong>
+            </div>
+            <h3>Actors</h3>
+
+            {movie.stars.map(star => (
+                <div key={star} className="movie-star">
+                {star}
+                </div>
+            ))}
+            <button className='edit-button'> Apply Changes</button>
+            </div>
+            </form>
             </div>  
         </div>    
     )
